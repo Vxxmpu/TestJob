@@ -21,7 +21,7 @@ public class EngineController {
     @PostMapping("/addKm")
     public ResponseEntity<Void> addKm(@RequestParam double kilometers) throws InterruptedException {
         engineService.setKilometres(kilometers);
-        engineService.getProductKm();
+//        engineService.getProductKm();
         log.info("Adding {} kilometers to the engine counter", kilometers);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -19,9 +19,9 @@ public class EngineService {
             Logger.getLogger(Engine.class.getName());
     private Double OverallKm = 500d;
     private Double kilometres = 0d;
+    private boolean isMethodComputeExecuted = false;
     public Double getProductKm() {
         return OverallKm;
-
     }
 
     public void setKilometres(Double kilometres) {
@@ -30,16 +30,26 @@ public class EngineService {
 
     @Scheduled(fixedDelay = 12000)
     public void computeKm() throws InterruptedException {
+        isMethodComputeExecuted = true;
         OverallKm += kilometres;
         LOGGER.info("computing km at "+
-                LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+                LocalDateTime.now());
     }
-    @Scheduled(fixedRate = 4000)
+//    @Scheduled(fixedDelayString = "PT12M")
+//    public void computeKm() throws InterruptedException {
+//        isMethodComputeExecuted = true;
+//        OverallKm += kilometres;
+//        LOGGER.info("computing km at "+
+//                LocalDateTime.now());
+//    }
+    @Scheduled(fixedRate = 5000)
     @Async
     public void refreshKmParameter() {
-
-        LOGGER.info("current km: "+ OverallKm +" at: "+
-                LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        if (isMethodComputeExecuted){
+            LOGGER.info("current km: "+ OverallKm +" at: "+
+                    LocalDateTime.now());
+            isMethodComputeExecuted = false;
+        }
     }
 
 }
